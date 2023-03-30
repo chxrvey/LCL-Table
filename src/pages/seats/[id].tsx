@@ -103,7 +103,7 @@ const SeatSelection = (): JSX.Element => {
       <TableAvailability seatDetails={seatDetails} handleSeatSelection={handleSeatSelection} selectedSeats={selectedSeats} />
         <div className={styles.seatsFooterRight}>
           <p>Selected seats: {selectedSeats.join(', ')}</p>
-          <Link href={`/checkout/${id}/${selectedSeats.join('-')}`}>
+          <Link href={`/checkout/${id}/${selectedSeats.join('-')}`} passHref>
             <Button variant="contained" disabled={!selectedSeats.length}>
               Proceed to Checkout
             </Button>
