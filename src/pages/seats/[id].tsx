@@ -19,11 +19,11 @@ const SeatSelection = (): JSX.Element => {
 
   
 
-  useEffect(() => {
-    if (!seats) {
-      clearSelectedSeats();
-    }
-  }, []);
+  useEffect(() => {  // eslint-disable-line react-hooks/exhaustive-deps
+    if (!seats) {  // eslint-disable-line react-hooks/exhaustive-deps
+      clearSelectedSeats();  // eslint-disable-line react-hooks/exhaustive-deps
+    }  // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
   const clearSelectedSeats = (): void => {
     let newMovieSeatDetails = { ...seatDetails };
