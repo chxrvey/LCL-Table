@@ -30,7 +30,7 @@ const Tickets = () => {
     } // eslint-disable-line react-hooks/exhaustive-deps
   }); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 
+
 
   const computeSelectedSeats = () => {
     let selectedSeats: string[] = [];
