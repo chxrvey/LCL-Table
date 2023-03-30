@@ -17,14 +17,14 @@ const CustomizeRows = () => {
   const [row, setRow] = useState<number>(movie?.rows || 0);
   const [column, setColumn] = useState<number>(movie?.cols || 0);
   
-  // useEffect(() => { clearSelectedSeats(); }, [])
+  useEffect(() => { clearSelectedSeats(); }, [])
 
   useEffect(() => { 
     handleSubmit();
   }, [row, column])
 
   const clearSelectedSeats = () => {
-    useEffect(() => { clearSelectedSeats(); }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     let newMovieSeatDetails = {...seatDetails};
     for(let key in seatDetails) {
       seatDetails[key].forEach((seatValue, seatIndex) => {
