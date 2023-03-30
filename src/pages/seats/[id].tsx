@@ -100,7 +100,7 @@ const SeatSelection = (): JSX.Element => {
         <RenderSeats />
       </div>
       <div className={styles.seatsFooter}>
-      {/* <TableAvailability seatDetails={seatDetails} handleSeatSelection={handleSeatSelection} selectedSeats={selectedSeats} /> */}
+      <TableAvailability seatDetails={seatDetails} handleSeatSelection={handleSeatSelection} selectedSeats={selectedSeats} />
         <div className={styles.seatsFooterRight}>
           <p>Selected seats: {selectedSeats.join(', ')}</p>
           <Link href={`/checkout/${id}/${selectedSeats.join('-')}`}>
