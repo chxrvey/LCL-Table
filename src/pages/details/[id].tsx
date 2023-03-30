@@ -16,7 +16,7 @@ const Details = () => {
 
   const RenderBookTicketsButton = () => {
       return (
-        <Link href={`/seats/${movie?.id} passHref legacyBehaviour`}>
+        <Link href={`/seats/${movie?.id} `}passHref>
           <div className={styles.paymentButtonContainer}>
             <Button variant="contained" href="#contained-buttons" className={styles.paymentButton }>
               Tables
@@ -28,7 +28,7 @@ const Details = () => {
 
   const RenderCustomizeRowsButton = () => {
       return (
-        <Link href={`/customize/${movie?.id} passHref legacyBehaviour`}>
+        <Link href={`/customize/${movie?.id}`}passHref>
           <div className={styles.paymentButtonContainer}>
             <Button variant="contained" href="#contained-buttons" className={styles.paymentButton} >
               Customize Row
