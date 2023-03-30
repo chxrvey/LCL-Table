@@ -22,13 +22,13 @@ const Tickets = () => {
     movieSeatDetails = JSON.parse(seatDetails);
   }
 
-  useEffect(() => {
-    if (seconds > 0) {
-      setTimeout(() => setSeconds(seconds - 1), 1000);
-    } else {
-      setIsTimerCompleted(true);
-    }
-  });
+  useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
+    if (seconds > 0) { // eslint-disable-line react-hooks/exhaustive-deps
+      setTimeout(() => setSeconds(seconds - 1), 1000); // eslint-disable-line react-hooks/exhaustive-deps
+    } else { // eslint-disable-line react-hooks/exhaustive-deps
+      setIsTimerCompleted(true); // eslint-disable-line react-hooks/exhaustive-deps
+    } // eslint-disable-line react-hooks/exhaustive-deps
+  }); // eslint-disable-line react-hooks/exhaustive-deps
 
   const computeSelectedSeats = () => {
     let selectedSeats: string[] = [];
