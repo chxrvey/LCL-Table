@@ -20,8 +20,7 @@ const CustomizeRows = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { clearSelectedSeats(); }, []) 
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { 
+  useEffect(() => {  // eslint-disable-line react-hooks/exhaustive-deps
     handleSubmit();
   }, [row, column])
 
