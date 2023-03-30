@@ -21,8 +21,8 @@ const CustomizeRows = () => {
   useEffect(() => { clearSelectedSeats(); }, []) 
 
   useEffect(() => {  // eslint-disable-line react-hooks/exhaustive-deps
-    handleSubmit();
-  }, [row, column])
+    handleSubmit();  // eslint-disable-line react-hooks/exhaustive-deps
+  }, [row, column])  // eslint-disable-line react-hooks/exhaustive-deps
 
   const clearSelectedSeats = () => {
     let newMovieSeatDetails = {...seatDetails};
