@@ -118,7 +118,7 @@ const Tickets = () => {
     return (
     <div className={styles.card}>
       <div className={styles.cardTitleContainer}>
-        <Link href={{ pathname: `/seats/${movie?.id}`, query: { seats: isTimerCompleted ? null : JSON.stringify(seatDetails) }}}><ArrowBackIcon /></Link>
+        <Link href={{ pathname: `/seats/${movie?.id}`, query: { seats: isTimerCompleted ? null : JSON.stringify(seatDetails) }}} passHref><ArrowBackIcon /></Link>
         <div className={styles.cardTitle}>
           TABLE SUMMARY
         </div>
