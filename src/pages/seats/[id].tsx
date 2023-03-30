@@ -1,52 +1,54 @@
-import Head from 'next/head'
+import React, { useContext, useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { useRouter } from 'next/router'
-import { useState, useEffect, useContext } from 'react'
+import Head from 'next/head';
 import { Button } from '@mui/material';
-
-import { Movie, Seats } from '../../constants/models/Movies'
-import styles from './Seats.module.scss'
+import { Movie, Seats } from '../../constants/models/Movies';
+import styles from './Seats.module.scss';
 import MoviesContext from '../../context/MoviesContext';
+import { TableAvailability } from '../../constants/TableAvailability'; 
 
-const Seats = () => { 
+
+const SeatSelection = (): JSX.Element => {
   const { movies } = useContext(MoviesContext);
-  const router = useRouter()
-  let selectedSeats: string[] = [];
-  const { id, seats }: any = router.query
-  const movie = movies.find(mov => mov.id === parseInt(id));
+  const router = useRouter();
+  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const { id, seats } = router.query as { id: string, seats: string };
+  const movie = movies.find((mov: Movie) => mov.id === parseInt(id));
   const [seatDetails, setSeatDetails] = useState<Seats>(movie?.seats || {});
+
   
-  useEffect(() => { 
+
+  useEffect(() => {
     if (!seats) {
       clearSelectedSeats();
     }
-  }, [])
-  
+  }, []);
 
-  const clearSelectedSeats = () => {
-    let newMovieSeatDetails = {...seatDetails};
-    for(let key in seatDetails) {
+  const clearSelectedSeats = (): void => {
+    let newMovieSeatDetails = { ...seatDetails };
+    for (let key in seatDetails) {
       seatDetails[key].forEach((seatValue, seatIndex) => {
         if (seatValue === 2) {
-          seatDetails[key][seatIndex] = 0;
+          newMovieSeatDetails[key][seatIndex] = 0;
         }
-      })
+      });
     }
     setSeatDetails(newMovieSeatDetails);
-  }
+  };
 
-  const onSeatClick = (seatValue: number, rowIndex: number, key: string) => {
+  const onSeatClick = (seatValue: number, rowIndex: number, key: string): void => {
     if (seatDetails) {
       if (seatValue === 1 || seatValue === 3) {
         return;
       } else if (seatValue === 0) {
-        seatDetails[key][rowIndex] = 2; 
+        seatDetails[key][rowIndex] = 2;
       } else {
-        seatDetails[key][rowIndex] = 0; 
+        seatDetails[key][rowIndex] = 0;
       }
     }
-    setSeatDetails({...seatDetails});
-  }
+    setSeatDetails({ ...seatDetails });
+  };
 
   /**
    * 0 - Not booked
@@ -54,82 +56,60 @@ const Seats = () => {
    * 2 - Selected
    * 3 - Blocked
    */
-  const getClassNameForSeats = (seatValue: number) => {
-    let dynamicClass;
-    if (seatValue === 0) {  // Not booked
+  const getClassNameForSeats = (seatValue: number): string => {
+    let dynamicClass: string;
+    if (seatValue === 0) {
       dynamicClass = styles.seatNotBooked;
-    }else if (seatValue === 1) {  // booked
+    } else if (seatValue === 1) {
       dynamicClass = styles.seatBooked;
-    } else if (seatValue === 2) {  // Seat Selected
+    } else if (seatValue === 2) {
       dynamicClass = styles.seatSelected;
-    } else { // Seat Blocked
+    } else {
       dynamicClass = styles.seatBlocked;
     }
-    return `${styles.seats} ${dynamicClass}`
-  }
+    return `${styles.seats} ${dynamicClass}`;
+  };
 
-  const RenderSeats = () => {
+  const RenderSeats = (): JSX.Element => {
     let seatArray = [];
-    for(let key in seatDetails) {
+    for (let key in seatDetails) {
       let colValue = seatDetails[key].map((seatValue, rowIndex) => (
         <span key={`${key}.${rowIndex}`} className={styles.seatsHolder}>
           {rowIndex === 0 && <span className={styles.colName}>{key}</span>}
-          <span className={getClassNameForSeats(seatValue)} onClick={() => onSeatClick(seatValue, rowIndex, key)}>
-            {rowIndex+1}
+          <span
+            className={getClassNameForSeats(seatValue)}
+            onClick={() => onSeatClick(seatValue, rowIndex, key)}
+          >
+            {rowIndex + 1}
           </span>
-          {seatDetails && rowIndex === seatDetails[key].length-1 && <><br/><br/></>}
+          {seatDetails && rowIndex === seatDetails[key].length - 1 && (
+            <span className={styles.colName}>{key}</span>
+          )}
         </span>
-      ))
-      seatArray.push(colValue);
+      ));
+      seatArray.push(<div key={key}>{colValue}</div>);
     }
-    return (
-      <div className={styles.seatsLeafContainer}>{seatArray}</div>
-    ) 
-  }
-
-  const RenderPaymentButton = () => {
-    selectedSeats = [];
-    for(let key in seatDetails) {
-      seatDetails[key].forEach((seatValue, seatIndex) => {
-        if (seatValue === 2) {
-          selectedSeats.push(`${key}${seatIndex+1}`)
-        }
-      })
-    }
-    if (selectedSeats.length) {
-      return (
-        <Link href={{ pathname: '/payment', query: { movieId: movie?.id, seatDetails: JSON.stringify(seatDetails) } }}>
-          <div className={styles.paymentButtonContainer}>
-            <Button variant="contained" href="#contained-buttons" className={styles.paymentButton} >
-              Table Confirmation
-            </Button>
-          </div>
-        </Link>
-      )
-    } else {
-      return <></>
-    }
-  }
-    
-  if (!movie) return <div>loading...</div>
+    return <div>{seatArray}</div>;
+  };
   return (
-    <>
-      <Head>
-        <title>Seats</title>
-      </Head>
-      <div className={styles.seatsContainer}>
-        <h1>{movie.name}</h1>
-        {seatDetails && <RenderSeats />}
-        <RenderPaymentButton />
+    <div className={styles.seatsWrapper}>
+      <div className={styles.seatsTitle}>
+        {/* <h1>{movie?.title} - Seats</h1> */}
       </div>
-    </>
-  );
-}
-
-type MovieType = {
-  movie: Movie;
-  isLoading: boolean;
-  isError: boolean;
-}
- 
-export default Seats;
+      <div className={styles.seatsContainer}>
+        <RenderSeats />
+      </div>
+      <div className={styles.seatsFooter}>
+      {/* <TableAvailability seatDetails={seatDetails} handleSeatSelection={handleSeatSelection} selectedSeats={selectedSeats} /> */}
+        <div className={styles.seatsFooterRight}>
+          <p>Selected seats: {selectedSeats.join(', ')}</p>
+          <Link href={`/checkout/${id}/${selectedSeats.join('-')}`}>
+            <Button variant="contained" disabled={!selectedSeats.length}>
+              Proceed to Checkout
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  )};
+  
